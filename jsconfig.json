@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "types": ["jest", "@testing-library/jest-dom"]
+  },
+  "include": ["src"]
+}
