@@ -15,7 +15,7 @@ describe("group", () => {
     expect(header).toBeInTheDocument();
   });
 
-  it("should pass", () => {
+  it("should pass the test", () => {
     render(<Header title="Header" />);
     const header = screen.getByRole("heading", { name: "Header" });
     expect(header).toBeInTheDocument();
