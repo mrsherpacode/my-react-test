@@ -1,43 +1,65 @@
-// import { render, screen, fireEvent } from "@testing-library/react";
-// import { BrowserRouter } from "react-router-dom";
-// import FollowersList from "../FollowersList";
+import { render, screen } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import axios from "axios";
+import FollowersList from "../FollowersList";
 
-// const MockFollowersList = () => {
-//   return (
-//     <BrowserRouter>
-//       <FollowersList />
-//     </BrowserRouter>
-//   );
-// };
+jest.mock("axios");
 
-// describe("FollowersList", () => {
-//   beforeEach(() => {
-//     // console.log("RUNS BEFORE EACH TEST")
-//     jest.mock("../../../__mocks__/axios");
-//   });
+beforeEach(() => {
+  axios.get.mockResolvedValue({
+    data: {
+      results: [
+        // ✅ matches data.results in your component
+        {
+          name: { first: "John", last: "Doe" },
+          picture: { large: "" },
+          login: { username: "johndoe" },
+        },
+        {
+          name: { first: "Jane", last: "Doe" },
+          picture: { large: "" },
+          login: { username: "janedoe" },
+        },
+        {
+          name: { first: "Alice", last: "Smith" },
+          picture: { large: "" },
+          login: { username: "alice" },
+        },
+        {
+          name: { first: "Bob", last: "Brown" },
+          picture: { large: "" },
+          login: { username: "bob" },
+        },
+        {
+          name: { first: "Eve", last: "White" },
+          picture: { large: "" },
+          login: { username: "eve" },
+        },
+      ],
+    },
+  });
+});
 
-//   // beforeAll(() => {
-//   //     console.log("RUNS ONCE BEFORE ALL TESTS")
-//   // })
+const MockingFollowers = () => {
+  return (
+    <BrowserRouter>
+      <FollowersList />
+    </BrowserRouter>
+  );
+};
 
-//   // afterEach(() => {
-//   //     console.log("RUNS AFTER EACH TEST")
-//   // })
+// asynchronous testing
+describe("Followers list", () => {
+  it("should render the follower", async () => {
+    render(<MockingFollowers />);
 
-//   // afterAll(() => {
-//   //     console.log("RUNS ONCE AFTER ALL TESTS")
-//   // })
+    const followerList = await screen.findByTestId("follower-item-0");
+    expect(followerList).toBeInTheDocument();
+  });
 
-//   it("should fetch and render input element", async () => {
-//     render(<MockFollowersList />);
-//     const followerDivElement = await screen.findByTestId(`follower-item-0`);
-//     expect(followerDivElement).toBeInTheDocument();
-//   });
-
-//   it("should fetch and render input element", async () => {
-//     render(<MockFollowersList />);
-
-//     const followerDivElement = await screen.findByTestId(`follower-item-0`);
-//     expect(followerDivElement).toBeInTheDocument();
-//   });
-// });
+  it("should render the multiple followers", async () => {
+    render(<MockingFollowers />);
+    const followerLists = await screen.findAllByTestId(/follower-item/i);
+    expect(followerLists.length).toBe(5);
+  });
+});
