@@ -2,9 +2,9 @@ import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import axios from "axios";
 import FollowersList from "../FollowersList";
-
+// it replaces the real axios module with a mock version during the test.
 jest.mock("axios");
-
+//is acting as a fake API response for axios.get
 beforeEach(() => {
   axios.get.mockResolvedValue({
     data: {
@@ -50,6 +50,22 @@ const MockingFollowers = () => {
 
 // asynchronous testing
 describe("Followers list", () => {
+  //  some of useful hooks
+
+  beforeEach(() => {
+    console.log("run this line before each test ");
+  });
+  beforeAll(() => {
+    console.log("run this line before all test ");
+  });
+  afterEach(() => {
+    console.log("run this line after each test ");
+  });
+
+  afterAll(() => {
+    console.log("run this line after all test ");
+  });
+
   it("should render the follower", async () => {
     render(<MockingFollowers />);
 
